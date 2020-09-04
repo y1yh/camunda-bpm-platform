@@ -80,7 +80,8 @@ import com.google.gson.Gson;
 public class TelemetryReporterTest {
 
   protected static final String TELEMETRY_ENDPOINT = "http://localhost:8081/pings";
-  private static final String TELEMETRY_ENDPOINT_PATH = "/pings";
+  protected static final String TELEMETRY_ENDPOINT_PATH = "/pings";
+  protected static final String LICENSE_KEY = "my+license";
 
   @ClassRule
   public static ProcessEngineBootstrapRule bootstrapRule =
@@ -122,6 +123,8 @@ public class TelemetryReporterTest {
 
     // clean up the recorded commands
     configuration.setTelemetryRegistry(new TelemetryRegistry());
+
+    managementService.setLicenseKey(LICENSE_KEY);
   }
 
   @After
@@ -190,10 +193,10 @@ public class TelemetryReporterTest {
         .willReturn(aResponse()
                     .withStatus(HttpURLConnection.HTTP_ACCEPTED)));
     standaloneProcessEngine = processEngineConfiguration.buildProcessEngine();
-  
+
     // when
     processEngineConfiguration.getTelemetryReporter().reportNow();
-  
+
     // then
     String requestBody = new Gson().toJson(data);
     verify(postRequestedFor(urlEqualTo(TELEMETRY_ENDPOINT_PATH))
@@ -517,6 +520,8 @@ public class TelemetryReporterTest {
     Map<String, Metric> metrics = getDefaultMetrics();
     internals.setMetrics(metrics);
 
+    internals.setLicenseKey(LICENSE_KEY);
+
     Product product = new Product("Runtime", "7.14.0", "special", internals);
     Data data = new Data("f5b19e2e-b49a-11ea-b3de-0242ac130004", product);
     return data;
@@ -537,6 +542,8 @@ public class TelemetryReporterTest {
 
     Map<String, Metric> metrics = getDefaultMetrics();
     result.getProduct().getInternals().setMetrics(metrics);
+
+    internals.setLicenseKey(LICENSE_KEY);
 
     return result;
   }

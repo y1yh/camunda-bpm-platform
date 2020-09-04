@@ -133,6 +133,8 @@ public class TelemetrySendingTask extends TimerTask {
 
     Map<String, Metric> metrics = calculateMetrics(processEngineConfiguration);
     internals.setMetrics(metrics);
+
+    internals.setLicenseKey(processEngineConfiguration.getManagementService().getLicenseKey());
   }
 
   protected Map<String, Command> fetchAndResetCommandCounts(ProcessEngineConfigurationImpl processEngineConfiguration) {

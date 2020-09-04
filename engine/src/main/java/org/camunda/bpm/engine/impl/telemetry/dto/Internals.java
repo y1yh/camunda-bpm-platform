@@ -24,6 +24,7 @@ import com.google.gson.annotations.SerializedName;
 public class Internals {
 
   public static final String SERIALIZED_APPLICATION_SERVER = "application-server";
+  public static final String SERIALIZED_LICENSE_KEY = "license-key";
 
   protected Database database;
   @SerializedName(value = SERIALIZED_APPLICATION_SERVER)
@@ -31,6 +32,9 @@ public class Internals {
   protected Map<String, Command> commands;
 
   protected Map<String, Metric> metrics;
+
+  @SerializedName(value = SERIALIZED_LICENSE_KEY)
+  protected String licenseKey;
 
   public Internals(Database database, ApplicationServer server) {
     super();
@@ -69,6 +73,14 @@ public class Internals {
 
   public void setMetrics(Map<String, Metric> metrics) {
     this.metrics = metrics;
+  }
+
+  public String getLicenseKey() {
+    return licenseKey;
+  }
+
+  public void setLicenseKey(String licenseKey) {
+    this.licenseKey = licenseKey;
   }
 
 }
